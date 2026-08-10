@@ -1,0 +1,166 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ===== 设计 token（来自 AGENTS.md） ===== */
+:root {
+  --background: hsl(30 80% 98%);
+  --card: hsl(340 60% 97%);
+  --foreground: hsl(340 40% 20%);
+  --muted-foreground: hsl(340 15% 55%);
+  --primary: hsl(340 75% 65%);
+  --primary-foreground: hsl(0 0% 100%);
+  --accent: hsl(340 70% 94%);
+  --accent-foreground: hsl(340 50% 35%);
+  --border: hsl(340 30% 90%);
+  --success: hsl(150 55% 48%);
+  --warning: hsl(35 70% 50%);
+  --destructive: hsl(0 60% 58%);
+  --card-shadow: 0 4px 20px -4px hsl(340 60% 80% / 0.3);
+  --ring: hsl(340 75% 65% / 0.3);
+}
+
+/* 柔和粉色暗色夜间模式（非纯黑） */
+.dark {
+  --background: hsl(340 30% 10%);
+  --card: hsl(340 25% 15%);
+  --foreground: hsl(340 30% 92%);
+  --muted-foreground: hsl(340 15% 70%);
+  --primary: hsl(340 75% 70%);
+  --primary-foreground: hsl(340 40% 12%);
+  --accent: hsl(340 30% 22%);
+  --accent-foreground: hsl(340 40% 88%);
+  --border: hsl(340 20% 25%);
+  --success: hsl(150 55% 55%);
+  --warning: hsl(35 70% 58%);
+  --destructive: hsl(0 60% 62%);
+  --card-shadow: 0 4px 20px -4px hsl(340 80% 5% / 0.55);
+  --ring: hsl(340 75% 70% / 0.35);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --font-sans: 'Nunito', 'PingFang SC', 'Microsoft YaHei Rounded', sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+  }
+  /* 反闪烁：#root 挂载前不可见，挂载后渐显 */
+  #root {
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  #root.ready {
+    opacity: 1;
+  }
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .card-shadow {
+    box-shadow: var(--card-shadow);
+  }
+  .hover-lift {
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+  .heartbeat {
+    animation: heartbeat 1.4s ease-in-out infinite;
+  }
+  .fade-in {
+    animation: fadeIn 300ms ease forwards;
+  }
+  .pop-in {
+    animation: popIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 自定义滚动条（粉系） */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(340 30% 80% / 0.5);
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: hsl(340 20% 35% / 0.6);
+}
+
+/* 尊重减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat,
+  .fade-in,
+  .pop-in {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌸 妙可儿的 HRT 成长日记</title>
+    <meta name="description" content="私人 HRT 成长追踪 · 数据仅存本地" />
+    <script>
+      // 反闪烁：在 React 渲染前根据本地偏好应用暗色模式，避免亮色闪一下
+      try {
+        var raw = localStorage.getItem('hrt:settings');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && parsed.state && parsed.state.darkMode) {
+            document.documentElement.classList.add('dark');
+          }
+        }
+      } catch (e) {
+        /* 忽略，回退到亮色 */
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/client/src/main.tsx"></script>
+  </body>
+</html>
